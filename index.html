@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IRONCLAD ARMORY — Home</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Share+Tech+Mono&family=Barlow:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --deep: #111214;
+    --panel: #161a1e;
+    --border: #2a2f35;
+    --accent: #c8922a;
+    --accent2: #e8b84b;
+    --red: #c0392b;
+    --text: #d4cfc8;
+    --muted: #6b7280;
+    --white: #f0ece4;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--black);
+    color: var(--text);
+    font-family: 'Barlow', sans-serif;
+    overflow-x: hidden;
+    cursor: crosshair;
+  }
+
+  /* NOISE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.3;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 48px;
+    height: 64px;
+    background: rgba(10,10,10,0.92);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(8px);
+  }
+
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    letter-spacing: 4px;
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .nav-logo span { color: var(--white); }
+
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover, .nav-links a.active { color: var(--accent); }
+
+  .nav-cart {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: var(--white);
+    text-decoration: none;
+    border: 1px solid var(--accent);
+    padding: 8px 18px;
+    transition: all 0.2s;
+  }
+
+  .nav-cart:hover {
+    background: var(--accent);
+    color: var(--black);
+  }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    background: var(--black);
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background: 
+      radial-gradient(ellipse 60% 80% at 70% 50%, rgba(200,146,42,0.06) 0%, transparent 60%),
+      linear-gradient(135deg, #0a0a0a 0%, #111214 50%, #0d0f11 100%);
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image: 
+      linear-gradient(rgba(200,146,42,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(200,146,42,0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 0 80px;
+    max-width: 760px;
+    animation: fadeUp 1s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-tag {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: var(--accent);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .hero-tag::before {
+    content: '';
+    display: block;
+    width: 32px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(72px, 10vw, 130px);
+    line-height: 0.9;
+    letter-spacing: 2px;
+    color: var(--white);
+    margin-bottom: 28px;
+  }
+
+  .hero-title span {
+    color: var(--accent);
+    display: block;
+  }
+
+  .hero-desc {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--muted);
+    max-width: 480px;
+    margin-bottom: 44px;
+    font-weight: 300;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+
+  .btn-primary {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    background: var(--accent);
+    color: var(--black);
+    padding: 16px 36px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.2s;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+  }
+
+  .btn-primary:hover {
+    background: var(--accent2);
+    transform: translateY(-2px);
+  }
+
+  .btn-secondary {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text);
+    text-decoration: none;
+    padding: 16px 36px;
+    border: 1px solid var(--border);
+    transition: all 0.2s;
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .hero-cross {
+    position: absolute;
+    right: 120px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 300px;
+    height: 300px;
+    opacity: 0.06;
+  }
+
+  .hero-stats {
+    position: absolute;
+    bottom: 48px;
+    left: 80px;
+    right: 80px;
+    display: flex;
+    gap: 60px;
+    border-top: 1px solid var(--border);
+    padding-top: 32px;
+    animation: fadeUp 1s 0.3s ease both;
+  }
+
+  .stat-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    color: var(--accent);
+    letter-spacing: 2px;
+  }
+
+  .stat-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  /* CATEGORIES STRIP */
+  .categories {
+    padding: 80px;
+    background: var(--deep);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px;
+    color: var(--white);
+    letter-spacing: 2px;
+    margin-bottom: 48px;
+  }
+
+  .cat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+  }
+
+  .cat-card {
+    position: relative;
+    background: var(--panel);
+    padding: 40px 32px;
+    border: 1px solid var(--border);
+    text-decoration: none;
+    overflow: hidden;
+    transition: all 0.3s;
+    group: true;
+  }
+
+  .cat-card::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s;
+  }
+
+  .cat-card:hover::before { transform: scaleX(1); }
+
+  .cat-card:hover {
+    background: #1a1e24;
+    transform: translateY(-4px);
+  }
+
+  .cat-icon {
+    font-size: 36px;
+    margin-bottom: 20px;
+    display: block;
+  }
+
+  .cat-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    letter-spacing: 2px;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+
+  .cat-count {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--muted);
+  }
+
+  .cat-arrow {
+    position: absolute;
+    bottom: 24px;
+    right: 24px;
+    color: var(--accent);
+    font-size: 20px;
+    opacity: 0;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+
+  .cat-card:hover .cat-arrow {
+    opacity: 1;
+    transform: translateX(4px);
+  }
+
+  /* FEATURED */
+  .featured {
+    padding: 80px;
+    background: var(--black);
+  }
+
+  .featured-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2px;
+    margin-top: 48px;
+  }
+
+  .feat-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s;
+  }
+
+  .feat-card:hover { transform: translateY(-6px); }
+
+  .feat-img {
+    height: 220px;
+    background: var(--deep);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 72px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .feat-img::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 50%, var(--panel));
+  }
+
+  .feat-badge {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    background: var(--red);
+    color: var(--white);
+    padding: 4px 10px;
+    z-index: 2;
+  }
+
+  .feat-body {
+    padding: 28px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .feat-cat {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .feat-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 1px;
+    color: var(--white);
+    margin-bottom: 10px;
+  }
+
+  .feat-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+    flex: 1;
+    margin-bottom: 20px;
+  }
+
+  .feat-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .feat-price {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    color: var(--accent);
+    letter-spacing: 1px;
+  }
+
+  .feat-btn {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 10px 18px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .feat-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* BANNER */
+  .banner {
+    padding: 80px;
+    background: var(--panel);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+  }
+
+  .banner-text h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 56px;
+    letter-spacing: 2px;
+    color: var(--white);
+    margin-bottom: 12px;
+  }
+
+  .banner-text p {
+    font-size: 15px;
+    color: var(--muted);
+    max-width: 500px;
+    line-height: 1.6;
+  }
+
+  /* FOOTER */
+  footer {
+    background: var(--deep);
+    border-top: 1px solid var(--border);
+    padding: 60px 80px 32px;
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 60px;
+    margin-bottom: 48px;
+  }
+
+  .footer-brand-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 4px;
+    color: var(--accent);
+    margin-bottom: 16px;
+  }
+
+  .footer-brand-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 280px;
+  }
+
+  .footer-col-title {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--white);
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+
+  .footer-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .footer-links a {
+    font-size: 13px;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--accent); }
+
+  .footer-bottom {
+    border-top: 1px solid var(--border);
+    padding-top: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-copy {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    color: var(--muted);
+  }
+
+  .ticker {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: var(--accent);
+    padding: 8px 0;
+    overflow: hidden;
+    z-index: 99;
+  }
+
+  .ticker-inner {
+    display: flex;
+    gap: 60px;
+    animation: ticker 25s linear infinite;
+    white-space: nowrap;
+  }
+
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  .ticker-item {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--black);
+    text-transform: uppercase;
+  }
+
+  .ticker-sep {
+    color: var(--black);
+    opacity: 0.4;
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">IRON<span>CLAD</span> ARMORY</a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">HOME</a></li>
+    <li><a href="products.html">PRODUCTS</a></li>
+    <li><a href="checkout.html">CHECKOUT</a></li>
+    <li><a href="#">ABOUT</a></li>
+  </ul>
+  <a href="checkout.html" class="nav-cart">🛒 CART (0)</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+
+  <svg class="hero-cross" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="150" cy="150" r="140" stroke="white" stroke-width="1"/>
+    <line x1="10" y1="150" x2="290" y2="150" stroke="white" stroke-width="1"/>
+    <line x1="150" y1="10" x2="150" y2="290" stroke="white" stroke-width="1"/>
+    <circle cx="150" cy="150" r="30" stroke="white" stroke-width="1"/>
+    <circle cx="150" cy="150" r="80" stroke="white" stroke-width="0.5" stroke-dasharray="4 4"/>
+  </svg>
+
+  <div class="hero-content">
+    <div class="hero-tag">TACTICAL GRADE EQUIPMENT</div>
+    <h1 class="hero-title">
+      BUILT FOR<br>
+      <span>COMBAT.</span>
+      DESIGNED<br>
+      FOR ELITE.
+    </h1>
+    <p class="hero-desc">
+      Professional-grade weapons, tactical gear, and field equipment engineered for military, law enforcement, and serious enthusiasts.
+    </p>
+    <div class="hero-actions">
+      <a href="products.html" class="btn-primary">EXPLORE ARSENAL</a>
+      <a href="#featured" class="btn-secondary">VIEW FEATURED</a>
+    </div>
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat-item">
+      <span class="stat-num">500+</span>
+      <span class="stat-label">Products In Stock</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">12K+</span>
+      <span class="stat-label">Units Deployed</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">40+</span>
+      <span class="stat-label">Countries Served</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">99.6%</span>
+      <span class="stat-label">Reliability Rating</span>
+    </div>
+  </div>
+</section>
+
+<!-- CATEGORIES -->
+<section class="categories">
+  <div class="section-label">// BROWSE BY CATEGORY</div>
+  <h2 class="section-title">OUR ARSENAL</h2>
+  <div class="cat-grid">
+    <a href="products.html" class="cat-card">
+      <span class="cat-icon">🔫</span>
+      <div class="cat-name">FIREARMS</div>
+      <div class="cat-count">48 ITEMS AVAILABLE</div>
+      <span class="cat-arrow">→</span>
+    </a>
+    <a href="products.html" class="cat-card">
+      <span class="cat-icon">🗡️</span>
+      <div class="cat-name">BLADES & MELEE</div>
+      <div class="cat-count">62 ITEMS AVAILABLE</div>
+      <span class="cat-arrow">→</span>
+    </a>
+    <a href="products.html" class="cat-card">
+      <span class="cat-icon">🛡️</span>
+      <div class="cat-name">TACTICAL ARMOR</div>
+      <div class="cat-count">34 ITEMS AVAILABLE</div>
+      <span class="cat-arrow">→</span>
+    </a>
+    <a href="products.html" class="cat-card">
+      <span class="cat-icon">🎯</span>
+      <div class="cat-name">OPTICS & GEAR</div>
+      <div class="cat-count">91 ITEMS AVAILABLE</div>
+      <span class="cat-arrow">→</span>
+    </a>
+  </div>
+</section>
+
+<!-- FEATURED -->
+<section class="featured" id="featured">
+  <div class="section-label">// FEATURED PRODUCTS</div>
+  <h2 class="section-title">TOP SELECTIONS</h2>
+  <div class="featured-grid">
+    <a href="products.html" class="feat-card">
+      <div class="feat-img">
+        🔫
+        <div class="feat-badge">BESTSELLER</div>
+      </div>
+      <div class="feat-body">
+        <div class="feat-cat">FIREARMS</div>
+        <div class="feat-name">PHANTOM AR-15 TACTICAL RIFLE</div>
+        <div class="feat-desc">Military-spec semi-automatic rifle with cold hammer-forged barrel, M-LOK handguard, and adjustable Magpul stock. Built for precision at range.</div>
+        <div class="feat-footer">
+          <div class="feat-price">$1,299</div>
+          <a href="checkout.html" class="feat-btn">ADD TO CART</a>
+        </div>
+      </div>
+    </a>
+    <a href="products.html" class="feat-card">
+      <div class="feat-img">
+        🗡️
+        <div class="feat-badge">NEW ARRIVAL</div>
+      </div>
+      <div class="feat-body">
+        <div class="feat-cat">BLADES</div>
+        <div class="feat-name">VIPER TANTO COMBAT KNIFE</div>
+        <div class="feat-desc">Full-tang 1095 high-carbon steel tanto blade with G10 grip scales. Corrosion-resistant black cerakote finish. Standard issue quality at your hands.</div>
+        <div class="feat-footer">
+          <div class="feat-price">$189</div>
+          <a href="checkout.html" class="feat-btn">ADD TO CART</a>
+        </div>
+      </div>
+    </a>
+    <a href="products.html" class="feat-card">
+      <div class="feat-img">
+        🎯
+        <div class="feat-badge">ELITE PICK</div>
+      </div>
+      <div class="feat-body">
+        <div class="feat-cat">OPTICS</div>
+        <div class="feat-name">NIGHTHAWK 4-16X SCOPE</div>
+        <div class="feat-desc">First focal plane riflescope with illuminated MRAD reticle, 34mm main tube, zero-reset turrets, and anti-reflection coated lenses for peak clarity.</div>
+        <div class="feat-footer">
+          <div class="feat-price">$649</div>
+          <a href="checkout.html" class="feat-btn">ADD TO CART</a>
+        </div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- BANNER -->
+<section class="banner">
+  <div class="banner-text">
+    <h2>GEAR THAT PERFORMS<br>WHEN IT MATTERS MOST</h2>
+    <p>Every product in our inventory is field-tested and mil-spec certified. We don't stock anything we wouldn't trust with our own lives. Free shipping on orders over $500.</p>
+  </div>
+  <a href="products.html" class="btn-primary" style="white-space:nowrap">BROWSE ALL GEAR</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand-name">IRONCLAD ARMORY</div>
+      <p class="footer-brand-desc">Professional-grade tactical equipment for military, law enforcement, and serious enthusiasts. Trusted by operators worldwide since 2009.</p>
+    </div>
+    <div>
+      <div class="footer-col-title">CATALOG</div>
+      <ul class="footer-links">
+        <li><a href="products.html">Firearms</a></li>
+        <li><a href="products.html">Blades & Melee</a></li>
+        <li><a href="products.html">Tactical Armor</a></li>
+        <li><a href="products.html">Optics & Gear</a></li>
+        <li><a href="products.html">Ammunition</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">SUPPORT</div>
+      <ul class="footer-links">
+        <li><a href="#">Track Order</a></li>
+        <li><a href="#">Returns</a></li>
+        <li><a href="#">Warranty</a></li>
+        <li><a href="#">FAQ</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">LEGAL</div>
+      <ul class="footer-links">
+        <li><a href="#">Compliance</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms of Service</a></li>
+        <li><a href="#">Export Controls</a></li>
+        <li><a href="#">FFL Dealers</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2026 IRONCLAD ARMORY. ALL RIGHTS RESERVED.</div>
+    <div class="footer-copy">FOR AUTHORIZED USE ONLY. COMPLY WITH ALL LOCAL REGULATIONS.</div>
+  </div>
+</footer>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <span class="ticker-item">FREE SHIPPING ON ORDERS OVER $500</span>
+    <span class="ticker-sep">///</span>
+    <span class="ticker-item">MIL-SPEC CERTIFIED EQUIPMENT</span>
+    <span class="ticker-sep">///</span>
+    <span class="ticker-item">LIFETIME WARRANTY ON ALL BLADES</span>
+    <span class="ticker-sep">///</span>
+    <span class="ticker-item">NEW NIGHTHAWK OPTICS SERIES IN STOCK</span>
+    <span class="ticker-sep">///</span>
+    <span class="ticker-item">FREE SHIPPING ON ORDERS OVER $500</span>
+    <span class="ticker-sep">///</span>
+    <span class="ticker-item">MIL-SPEC CERTIFIED EQUIPMENT</span>
+    <span class="ticker-sep">///</span>
+    <span class="ticker-item">LIFETIME WARRANTY ON ALL BLADES</span>
+    <span class="ticker-sep">///</span>
+    <span class="ticker-item">NEW NIGHTHAWK OPTICS SERIES IN STOCK</span>
+    <span class="ticker-sep">///</span>
+  </div>
+</div>
+
+</body>
+</html>
